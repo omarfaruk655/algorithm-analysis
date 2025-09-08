@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void quickSort(int arr[], int low, int high) {
+    if (low >= high) return;
+
+    // pick random pivot
+    int pivotIndex = low + rand() % (high - low + 1);
+    int pivot = arr[pivotIndex];
+
+    // move pivot to end
+    int temp = arr[pivotIndex];
+    arr[pivotIndex] = arr[high];
+    arr[high] = temp;
+
+    int i = low, j = high - 1;
+
+    while (i <= j) {
+        if (arr[i] < pivot) {
+            i++;
+        } else {
+            int t = arr[i];
+            arr[i] = arr[j];
+            arr[j] = t;
+            j--;
+        }
+    }
+
+    // put pivot in correct place
+    temp = arr[i];
+    arr[i] = arr[high];
+    arr[high] = temp;
+
+    // recursive calls
+    quickSort(arr, low, i - 1);
+    quickSort(arr, i + 1, high);
+}
+
+int main() {
+    srand(time(NULL));
+    int arr[] = {34, 7, 23, 32, 5, 62, 32, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Original: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    quickSort(arr, 0, n - 1);
+
+    printf("Sorted:   ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    return 0;
+}
